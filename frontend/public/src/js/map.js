@@ -27,8 +27,9 @@ fetch('http://localhost:3000/posts')
         showLocations();
     })
     .catch( (err) => {
-        locations[0]=[13.4105300, 52.5243700];
-        locations[1]=[9.993682, 53.551086];
+        //locations[0]=[13.4105300, 52.5243700];
+        //locations[1]=[9.993682, 53.551086];
+        locations=[13.4105300, 52.5243700];
         if('indexedDB' in window) {
             readAllData('posts')
                 .then( data => {
