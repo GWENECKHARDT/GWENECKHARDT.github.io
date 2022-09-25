@@ -1,5 +1,3 @@
-//import * as ol from "ol";
-
 let shareImageButton = document.querySelector('#share-image-button');
 let createPostArea = document.querySelector('#create-post');
 let closeCreatePostModalButton = document.querySelector('#close-create-post-modal-btn');
@@ -34,6 +32,7 @@ let cardInfoCardWrapper = document.createElement('div');
 let cardWrapper = document.createElement('div');
 //let deleteButton = document.querySelector('#delete-btn');
 
+//Button zum automatischen Hinzufügen des Ortes
 locationButton.addEventListener('click', event => {
     if(!('geolocation' in navigator)) {
         return;
@@ -46,7 +45,7 @@ locationButton.addEventListener('click', event => {
         locationButton.style.display = 'inline';
         locationLoader.style.display = 'none';
         fetchedLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-        console.log('current position: ', fetchedLocation);
+        console.log('Aktuelle Position: ', fetchedLocation);
 
         let nominatimURL = 'https://nominatim.openstreetmap.org/reverse';
         nominatimURL += '?format=jsonv2';   // format=[xml|json|jsonv2|geojson|geocodejson]
@@ -75,12 +74,14 @@ locationButton.addEventListener('click', event => {
                             source: new ol.source.OSM()
                         })
                     ],
+                    //Zentrum der Kartenansicht ist der aktuelle Standort
                     view: new ol.View({
                         center: ol.proj.fromLonLat([fetchedLocation.longitude, fetchedLocation.latitude]),
                         zoom: 12
                     })
                 });
 
+                //Form (blauer Kreis) wird mit den Koordinaten erstellt und in layer gespeichert
                 const layer = new ol.layer.Vector({
                     source: new ol.source.Vector({
                         features: [
@@ -91,15 +92,17 @@ locationButton.addEventListener('click', event => {
                     })
                 });
 
+                //layer wird der Karte hinzugefügt
                 map.addLayer(layer);
 
                 console.log('map', map)
             })
+            //Abfangen und Konsolenausgabe eines Möglichen Errors und setzen eines festen Wertes für locationInput.value
             .catch( (err) => {
                 console.error('err', err)
                 locationInput.value = 'Irgendwo im Nirgendwo';
             })
-
+        //Ausgabe eines Errors und Setzen von leeren Werten für die Koordinaten
         .catch((err) => {
             console.error('err', err)
             fetchedLocation.latitude = '';
@@ -112,11 +115,9 @@ locationButton.addEventListener('click', event => {
         console.log(err);
         locationButton.style.display = 'inline';
         locationLoader.style.display = 'none';
-        alert('Couldn\'t fetch location, please enter manually!');
-        //fetchedLocation = null;
+        //Bei manueller Eingabe, setzen von leeren Werten für die Koordinaten.
+        alert('Aktueller Standort konnte nicht ermittelt werden. Bitte manuell eingeben.');
         fetchedLocation = { latitude: '', longitude: '' }
-        //fetchedLocation.latitude = '';
-        //fetchedLocation.longitude = '';
     }, { timeout: 5000});
 });
 
@@ -138,7 +139,7 @@ function initializeMedia() {
             let getUserMedia = navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
             if(!getUserMedia) {
-                return Promise.reject(new Error('getUserMedia is not implemented'));
+                return Promise.reject(new Error('getUserMedia ist nicht verfügbar'));
             }
 
             return new Promise( (resolve, reject) => {
@@ -157,6 +158,7 @@ function initializeMedia() {
         });
 }
 
+//Funktion zum Öffnen des Formulares.
 function openCreatePostModal() {
     setTimeout( () => {
         createPostArea.style.transform = 'translateY(0)';
@@ -165,6 +167,7 @@ function openCreatePostModal() {
     initializeLocation();
 }
 
+//Funktion zum Schließen des Formulares.
 function closeCreatePostModal() {
     imagePickerArea.style.display = 'none';
     videoPlayer.style.display = 'none';
@@ -183,6 +186,7 @@ shareImageButton.addEventListener('click', openCreatePostModal);
 
 closeCreatePostModalButton.addEventListener('click', closeCreatePostModal);
 
+//Funktion zum Anzeigen weiterer Infos in der Karte
 function moreInfos(card)
 {
     console.log('More Infos');
@@ -195,11 +199,6 @@ function moreInfos(card)
     cardInfoTitle.textContent=card.title;
     cardInfo.appendChild(cardInfoTitle);
     console.log(card.title);
-    /*let cardInfoLocation=document.createElement('h4')
-    cardInfoLocation.textContent=card.location;
-    cardInfo.appendChild(cardInfoLocation);
-    console.log(card.location);*/
-    //moreInfosArea.appendChild(cardInfo);
     console.log(cardInfo);
     let cardInfoDate=document.createElement('h4')
     cardInfoDate.textContent=card.date;
@@ -207,9 +206,6 @@ function moreInfos(card)
     let cardInfoNotes=document.createElement('h4')
     cardInfoNotes.textContent=card.notes;
     cardInfo.appendChild(cardInfoNotes);
-    /*        let cardInfoLinks=document.createElement('h5')
-            cardInfoLinks.textContent=picture.links;
-            cardInfo.appendChild(cardInfoLinks);*/
     //Id zum Testen
     /*let cardInfoId=document.createElement('h4');
     cardInfoId.textContent=card._id;
@@ -222,47 +218,26 @@ function moreInfos(card)
     backToImageButton.innerText="Zurück zum Bild";
     backToImageButton.id='backToImage-btn'
     backToImageButton.addEventListener('click', () => {
-        //alert('Juchuu');
-        //console.log('Yes!');
-        //back(card);
-        //createCard(card);
         location.reload(); //Umgehungslösung: Ganze Website lädt neu
     })
-    let deleteButton = document.createElement('button');
+    //Delete funktioniert nicht, da die Objekt-ID nciht aus der Datenbank genutzt wird,
+    //sondern die Funktion auf eine andere (sich ändernde) ID zurückgreift
+    /*let deleteButton = document.createElement('button');
     deleteButton.innerText="Bild löschen";
     console.log("ID aus MoreInfos-Funktion:" + card._id);
     deleteButton.addEventListener('click', () => {
         deleteOneCard(card)
-    })
+    })*/
     cardInfoCardWrapper = document.createElement('div');
-    //cardInfoCardWrapper.className = 'shared-moment-cardInfo mdl-card mdl-shadow--2dp';
     cardInfoCardWrapper.appendChild(cardInfo);
     cardInfoCardWrapper.appendChild(backToImageButton);
-    cardInfoCardWrapper.appendChild(deleteButton);
+    //cardInfoCardWrapper.appendChild(deleteButton);
 
     console.log(cardInfoCardWrapper);
-    //sharedMomentsArea.appendChild(cardInfo);
     return cardInfoCardWrapper;
-
-    /*    cardWrapper.appendChild(cardInfo);
-    cardWrapper.appendChild(backToImageButton);
-    componentHandler.upgradeElement(cardWrapper);
-    console.log(cardWrapper);*/
 }
 
-function closeMoreInfosArea()
-{
-    setTimeout( () => {
-        moreInfosArea.style.transform = 'translateY(100vH)';
-    }, 1);
-}
-
-function back(card)
-{
-    console.log("Bild anzeigen")
-    createCard(card);
-}
-
+//Anlegen einer Karte
 function createCard(card) {
     cardWrapper = document.createElement('div');
     cardWrapper.className = 'shared-moment-card mdl-card mdl-shadow--2dp';
@@ -277,21 +252,19 @@ function createCard(card) {
     cardTitleTextElement.className = 'mdl-card__title-text';
     cardTitleTextElement.textContent = card.title;
     //console.log(card.title);
-    cardTitleTextElement.classList.add('whiteText');
-    cardTitle.appendChild(cardTitleTextElement);
+    cardTitleTextElement.classList.add('greyTitle');
+    //Aus Bildbereich herausgenommen, da man es keine Farbe gibt, die man auf allen Bildern definitiv sehen kann
+    //cardTitle.appendChild(cardTitleTextElement);
+    cardWrapper.appendChild(cardTitleTextElement);
     let cardSupportingText = document.createElement('div');
     cardSupportingText.className = 'mdl-card__supporting-text';
     cardSupportingText.textContent = card.location;
     cardSupportingText.style.textAlign = 'center';
-    // image.addEventListener('click', console.log('KLick!'))
     cardWrapper.appendChild(cardSupportingText);
     let moreInfosButton = document.createElement('button');
-    // moreInfos.appendChild(document.createTextNode('Klick hier!'));
     moreInfosButton.innerText="Weitere Informationen";
     moreInfosButton.id='moreInfos-btn'
     moreInfosButton.addEventListener('click', () => {
-        //alert('Juchuu');
-        //console.log('Yes!');
         console.log("ID aus CreateCard-Funktion: " + card._id);
         cardTitle.style.backgroundImage = 'None';
         moreInfosButton.style.display = 'None';
@@ -304,13 +277,9 @@ function createCard(card) {
     componentHandler.upgradeElement(cardWrapper);
     sharedMomentsArea.appendChild(cardWrapper);
 
-    //return cardWrapper;
-
-    /*sharedMomentsArea.addEventListener('click', openImg())*/
-    /*let moreInfos = document.getElementById('shared-moments')
-    moreInfos.addEventListener('click', console.log('KLick!'))*/
 }
 
+//Auslesen der Daten für die Karten aus der Datenbank
 fetch('http://localhost:3000/posts')
     .then((res) => {
         return res.json();
@@ -321,6 +290,8 @@ fetch('http://localhost:3000/posts')
         // showLocations();
     })
     .catch( (err) => {
+        //Wenn nicht auf die Datenbank zugegriffen werden kann, werden die Daten
+        //aus indexedDB geholt
         if('indexedDB' in window) {
             readAllData('posts')
                 .then( data => {
@@ -331,7 +302,7 @@ fetch('http://localhost:3000/posts')
     });
 
 
-
+//Für jeden Datensatz wird eine Karte angelegt
 function updateUI(data) {
     for(let card of data)
     {
@@ -339,6 +310,8 @@ function updateUI(data) {
     }
 }
 
+//Funktion zum Löschen einer Karte
+//(Funktioniert leider nicht, da die ObjectID nicht aus MongoDB ausgelesen wird)
 function deleteOneCard(card) {
     /*fetch('http://localhost:3000/posts', {
         method: 'GET',
@@ -365,7 +338,9 @@ function deleteOneCard(card) {
         })
 }
 
+//Daten werden an das Backend gesandt
 function sendDataToBackend() {
+    //Speichern der angegebenen Daten im formData
     const formData = new FormData();
     formData.append('title', titleValue);
     formData.append('location', locationValue);
@@ -377,16 +352,18 @@ function sendDataToBackend() {
 
     console.log('formData', formData)
 
+    //body, mit den Daten für die Datenbank, wird mit formData befüllt
     fetch('http://localhost:3000/posts', {
         method: 'POST',
         body: formData
     })
         .then( response => {
-            console.log('Data sent to backend ...', response);
+            console.log('Daten werden an Backend gesendet:', response);
             return response.json();
         })
         .then( data => {
-            console.log('data ...', data);
+            console.log('data:', data);
+            //Neue Daten werden in newPost hinterlegt.
             const newPost = {
                 title: data.title,
                 location: data.location,
@@ -396,6 +373,7 @@ function sendDataToBackend() {
                 notes: data.notes,
                 image_id: imageURI
             }
+            //Erstellen einer neuen Karte mit den hinzugekommenen Daten, die in newPost hinterlegt sind.
             updateUI([newPost]);
         });
 }
@@ -403,14 +381,11 @@ function sendDataToBackend() {
 form.addEventListener('submit', event => {
     event.preventDefault(); // nicht absenden und neu laden
 
+    //Wenn kein Foto aufgenommen oder hochgeladen wurden, kommt eine Fehlermeldung.
     if (file == null) {
         alert('Erst Foto aufnehmen!')
         return;
     }
-    /*if (titleInput.value.trim() === '' || locationInput.value.trim() === '') {
-        alert('Bitte Titel und Location angeben!')
-        return;
-    }*/
     if (titleInput.value.trim() === '') {
         alert('Bitte Titel angeben!')
         return;
@@ -419,55 +394,35 @@ form.addEventListener('submit', event => {
         alert('Bitte Location angegeben!')
         return;
     }
+    //Wenn die Koordinaten nicht über den Locationbutton abgefragt wurden, bleiben sie leer.
     if (fetchedLocation === undefined) {
         fetchedLocation = { latitude: '', longitude: '' }
         return fetchedLocation;
     }
-    /*if (fetchedLocation === undefined) {
-        return fetchedLocation.longitude = '';
-    }*/
-/*    if (fetchedLocation.latitude === undefined) {
-        return fetchedLocation.latitude = '';
 
-    }
-    if (fetchedLocation.longitude === undefined) {
-        return fetchedLocation.longitude = '';
-    }*/
-
+    //Nachdem auf Speichern geklickt wurde und die Eingaben auf Vollständigkeit geprüft wurden,
+    //wird das Formular geschlossen.
     closeCreatePostModal();
 
     titleValue = titleInput.value;
     locationValue = locationInput.value;
     dateValue = dateInput.value;
     notesValue = notesInput.value;
-    //notesValue = notesInput.textContent;
     console.log('titleInput', titleValue)
     console.log('locationInput', locationValue)
-/*    try{
-        console.log('latitude', fetchedLocation.latitude);
-    }
-    catch{
-        fetchedLocation.latitude = null;
-        console.log('latitude', fetchedLocation.latitude)
-    }
-    try{
-        console.log('longitude', fetchedLocation.longitude);
-    }
-    catch{
-        fetchedLocation.longitude = null;
-        console.log('longitude', fetchedLocation.longitude)
-    }*/
     console.log('latitude', fetchedLocation.latitude)
     console.log('longitude', fetchedLocation.longitude)
     console.log('date', dateValue)
     console.log('notes', notesValue)
     console.log('file', file)
 
+    //Speichern der Eingaben zur Synchronisierung, wenn Serviceworker und Syncmanager zur Verüfung stehen.
     if('serviceWorker' in navigator && 'SyncManager' in window) {
         navigator.serviceWorker.ready
             .then( sw => {
+                //Daten werden in post hinterlegt.
                 let post = {
-                    id: new Date().toISOString(),
+                    id: new Date().toISOString(), //ID setzt sich aus Datum und Uhrzeit zusammen.
                     title: titleValue,
                     location: locationValue,
                     latitude: fetchedLocation.latitude,
@@ -481,18 +436,21 @@ form.addEventListener('submit', event => {
                         sw.sync.register('sync-new-post');
                     })
                     .then( () => {
+                        //Anzeige der Meldung am unteresn Bildschirmrand.
                         let snackbarContainer = new MaterialSnackbar(document.querySelector('#confirmation-toast'));
-                        let data = { message: 'Eingaben zum Synchronisieren gespeichert!', timeout: 2000};
+                        let data = { message: 'Eingaben zur Synchronisation gespeichert!', timeout: 2000};
                         snackbarContainer.showSnackbar(data);
                     });
             });
     }
 
+    //Sonst Daten direkt an Backend senden.
     else {
         sendDataToBackend();
     }
 });
 
+//Button zur Aufnahme eines Fotos.
 captureButton.addEventListener('click', event => {
     event.preventDefault(); // nicht absenden und neu laden
     canvasElement.style.display = 'block';
@@ -511,14 +469,15 @@ captureButton.addEventListener('click', event => {
             return res.blob()
         })
         .then(blob => {
+            //file mit em Bild wird erstellt
             file = new File([blob], "myFile.jpg", { type: "image/jpg" })
             console.log('file', file)
         })
 });
 
+//Button zum Hochladen eine Bildes.
 imagePicker.addEventListener('change', event => {
+    //file beinhaltet hochgeladenes Bild.
     file = event.target.files[0];
 });
-
-
 
