@@ -36,6 +36,7 @@ fetch('http://localhost:3000/posts')
                     locations=[[13.4105300, 52.5243700],[9.993682, 53.551086]];
                     console.log('From cache: ', data);
                     console.log("Beispieldaten: ", locations);
+                    showLocations();
                 })
         }
     
