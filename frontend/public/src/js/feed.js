@@ -295,7 +295,7 @@ fetch('http://localhost:3000/posts')
         if('indexedDB' in window) {
             readAllData('posts')
                 .then( data => {
-                    data={title: 'Letzte Tests', location: 'Hamburg', latitude: '', longitude: '', image_id: '', notes: 'Test Hamburg', _id: '1', date: '25.09.2022'};
+                    data=[{title: 'Letzte Tests', location: 'Hamburg', latitude: '', longitude: '', image_id: '', notes: 'Test Hamburg', _id: '1', date: '25.09.2022'}];
                     console.log('Beispieldaten: ', data);
                     updateUI(data);
                 })
