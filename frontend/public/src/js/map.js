@@ -33,6 +33,7 @@ fetch('http://localhost:3000/posts')
             readAllData('posts')
                 .then( data => {
                     data=[[13.4105300, 52.5243700],[9.993682, 53.551086]];
+                    locations=[[13.4105300, 52.5243700],[9.993682, 53.551086]];
                     console.log('From cache: ', data);
                     console.log("Beispieldaten: ", locations);
                 })
