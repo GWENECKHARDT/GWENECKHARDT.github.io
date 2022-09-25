@@ -8,7 +8,6 @@
     top: 56px;
     background: white;
     text-align: center;
-    /* visibility: hidden; */
     transform: translateY(100vH);
     transition: transform 0.3s;
 }
@@ -19,10 +18,6 @@
     display: none;
     margin: auto;
 }
-
-/*#create-post #pick-image, #create-post #location-loader {
-    display: none;
-}*/
 
 #create-post #location-loader{
     display: none;
@@ -46,7 +41,6 @@
     top: 56px;
     background: white;
     text-align: center;
-    /*visibility: hidden;*/
     transform: translateY(100vH);
     transition: transform 0.3s;
 }
@@ -88,8 +82,12 @@ h3 {
     margin: 10px auto;
 }
 
-.whiteText {
-    color: white;
+.greyTitle {
+    color: dimgrey;
+}
+
+.mdl-card__title-text {
+    align-self: center;
 }
 
 #create-post .map {
