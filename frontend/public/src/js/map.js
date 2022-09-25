@@ -22,6 +22,8 @@ fetch('http://localhost:3000/posts')
                 locations[0]=[10, 20]
                 locations[1]=[20, 30]
                 locations[2]=[data[11]["longitude"], data[11]["latitude"]]*/
+        locations[0]=[13.4105300, 52.5243700]
+        locations[1]=[9.993682, 53.551086]
         console.log('Berlin: ', locations[11]);
         console.log('Array: ',locations);
         showLocations();
