@@ -23,10 +23,29 @@ besteht.<br>
 Darüber hinaus können über die beiden Buttons "Benachrichtigung" in der Kopfleiste bzw. "Benachrichtigung Ein"
 im seitlichen Menü, Benachrichtigungen aktiviert werden. Man bekommt eine Benachrichtigung, wenn man diese 
 aktiviert hat und dann wieder, sobald Beiträge in der Anwendung geteilt werden.<br>
-In der Aktivierungs-Benachrichtigung, kann man seine Entscheidung über "Ok" und "Cancel" noch einmal verändern.
+Die Aktivierungs-Benachrichtigung kann man über das X Schließen oder mit Ok bestätigen.
 In der Beitrags-Benachrichtigung, gelangt man direkt in die Bildergalerie, wenn man auf die Benachrichtigung klickt.<br>
+Das Frontend ist so gestaltet, dass sich die Anwendung sowohl auf einem Computer, wie auch auf einem Smartphone 
+bedienen lässt.<br>
 
 Hinweis: Sowohl die Nutzung der Kamera, sowie des Standortes und der Benachrichtigungen, werden vom Browser selbst 
 noch einmal abgefragt. Hat man diese schon vorab verweigert, muss man sie in den Einstellungen des Browsers wieder
 aktivieren.
+
+Nach dem Klonen des Projektes von Github:
+Im Projektordner IKT22_Projekt_Reiseblog befinden sich die Ordner frontend und backend. In beiden von ihnen muss einmal
+der Befehl "npm install" ausgeführt werden. <br>
+Außerdem muss die Variable DB_CONNECTION in der Datei .env im Ordner backend angepasst werden.<br>
+Damit die Anwendung lokal nutzbar ist, muss im backend-Ordner der Befehl "npm run watch" und im frontend-Ordner der Befehl
+"npm start" ausgeführt werden. Beachte bitte, dass das Backend, bei einer offline-Nutzung, möglicherweise neu gestartet 
+werden muss, sobald man wieder mit dem Internet verbunden ist. Erst dann kann die Synchronisierung mit den zwischenzeitlich
+hochgeladenen Bildern erfolgen.<br>
+
+PS.:
+Um einen ersten Eindruck von der Anwendung zu bekommen, besuche https://gweneckhardt.github.io/ .
+Hier kannst du sehen, was du mit der Anwendung machen kannst und wie sie aussieht. 
+Aber bedenke, dass die Eingaben, die du machst, nicht gespeichert werden.
+(Repository: https://github.com/GWENECKHARDT/GWENECKHARDT.github.io)
+
+
 
