@@ -295,7 +295,7 @@ fetch('http://localhost:3000/posts')
         if('indexedDB' in window) {
             readAllData('posts')
                 .then( data => {
-                    data=[{title: 'Hamburg', location: '1 Teststraße, Hamburg, 12345, Deutschland', latitude: '52.5243700', longitude: '13.4105300', image_id: '', notes: 'Das ist eine Testnotiz.', _id: '1', date: '25.09.2022'}, {title: 'Berlin', location: '2 Musterstraße, Berlin, 67890, Deutschland', latitude: '53.551086', longitude: '9.993682', image_id: '', notes: 'Das ist eine weitere Testnotiz. Diese Notiz ist für Berlin.', _id: '2', date: '24.09.2022'}];
+                    data=[{title: 'Hamburg', location: '1, Teststraße, Hamburg, 12345, Deutschland', latitude: '52.5243700', longitude: '13.4105300', image_id: '', notes: 'Das ist eine Testnotiz.', _id: '1', date: '25.09.2022'}, {title: 'Berlin', location: '2, Musterstraße, Berlin, 67890, Deutschland', latitude: '53.551086', longitude: '9.993682', image_id: '', notes: 'Das ist eine weitere Testnotiz. Diese Notiz ist für Berlin.', _id: '2', date: '24.09.2022'}];
                     console.log('Beispieldaten: ', data);
                     updateUI(data);
                 })
