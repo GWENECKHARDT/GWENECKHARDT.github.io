@@ -107,6 +107,7 @@ function askForNotificationPermission() {
             console.log('No notification permission granted');
         } else {
             console.log("configurPushSubscription");
+            alert("Um Push-Benachrichtigungen zu aktivieren, nutze bitte das vollständige Projekt von GitHub.")
             configurePushSubscription();
         }
     });
