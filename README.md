@@ -44,7 +44,7 @@ hochgeladenen Bildern erfolgen.<br>
 PS.:
 Um einen ersten Eindruck von der Anwendung zu bekommen, besuche https://gweneckhardt.github.io/ .
 Hier kannst du sehen, was du mit der Anwendung machen kannst und wie sie aussieht. 
-Aber bedenke, dass die Eingaben, die du machst, nicht gespeichert werden.
+Aber bedenke, dass die Eingaben, die du machst, nicht gespeichert werden, du die Anwendung nicht installieren kannst und du keine Benachrichtigungen aktivieren kannst. Außerdem ist sie auch nicht erreichbar, wenn du keine aktive Internetverbindung hast. 
 (Repository: https://github.com/GWENECKHARDT/GWENECKHARDT.github.io)
 
 
